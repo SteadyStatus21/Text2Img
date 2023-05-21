@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Text2Image | SteadyStatus21</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/98.css">
+    <link rel="preload" href="fonts/Arial.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="fonts/grandstander.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="fonts/grandstander-italic.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="fonts/nothingyoucoulddo-regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="fonts/NotoSansJP-Black.ttf" as="font" type="font/ttf" crossorigin>
+    
+</head>
+
+<body>
+    <header>Convert Text to Image</header>
+    <h3>Many Fonts Included!</h3>
+    <div class="window">
+        <div class="options">
+            <div class="opt-content">
+                <label for="text">Character Content: </label>
+                <textarea id="text" rows="8" cols="200" placeholder="Please enter text content"></textarea>
+            </div>
+            <div class="opt-content">
+                <label for="font">Font-Family:</label>
+                <select name="font" id="font" onchange="selectFontChange()">
+                <option value="Arial">Arial</option>
+                <option value="grandstander">Grandstander</option>
+                <option value="grandstander-italic">Grandstander Italic</option>
+                <option value="nothingyoucoulddo-regular">nothingyoucoulddo-regular</option>
+                <option value="NotoSansJP-Black">NotoSansJP-Black</option>
+                <option value="NotoSansJP-Medium">NotoSansJP-Medium</option>
+                <option value="NotoSansJP-Thin">NotoSansJP-Thin</option>
+                <option value="NotoSansKR-Black">NotoSansKR-Black</option>
+                <option value="NotoSansSC-Black">NotoSansSC-Black</option>
+                <option value="NotoSansSC-Bold">NotoSansSC-Bold</option>
+                <option value="NotoSansSC-Light">NotoSansSC-Light</option>
+                <option value="NotoSansSC-Medium">NotoSansSC-Medium</option>
+                <option value="NotoSansSC-Thin">NotoSansSC-Thin</option>
+                <option value="pointfree">pointfree</option>
+                <option value="Roboto-Bold">Roboto-Bold</option>
+                <option value="Roboto-LightItalic">Roboto-LightItalic</option>
+                <option value="Roboto-Medium">Roboto-Medium</option>
+                <option value="Roboto-MediumItalic">Roboto-MediumItalic</option>
+                <option value="Roboto-Regular">Roboto-Regular</option>
+                <option value="Roboto-ThinItalic">Roboto-ThinItalic</option>
+                <option value="ShantellSans-Bold">ShantellSans-Bold</option>
+                <option value="ShantellSans-BoldItalic">ShantellSans-BoldItalic</option>
+                <option value="ShantellSans-ExtraBold">ShantellSans-ExtraBold</option>
+                <option value="ShantellSans-ExtraBold_Mono">ShantellSans-ExtraBold_Mono</option>
+                <option value="ShantellSans-ExtraBoldItalic">ShantellSans-ExtraBoldItalic</option>
+                <option value="ShantellSans-Italic">ShantellSans-Italic</option>
+                <option value="ShantellSans-Italic-VariableFont">ShantellSans-Italic-VariableFont</option>
+                <option value="ShantellSans-Light">ShantellSans-Light</option>
+                <option value="ShantellSans-LightItalic">ShantellSans-LightItalic</option>
+                <option value="ShantellSans-Medium">ShantellSans-Medium</option>
+                <option value="ShantellSans-MediumItalic">ShantellSans-MediumItalic</option>
+                <option value="ShantellSans-Regular">ShantellSans-Regular</option>
+                <option value="ShantellSans-SemiBold">ShantellSans-SemiBold</option>
+                <option value="ShantellSans-SemiBoldItalic">ShantellSans-SemiBoldItalic</option>
+                <option value="ShantellSans-VariableFont">ShantellSans-VariableFont</option>
+                <option value="Suboleya">Suboleya</option>
+                <option value="VCR_OSD_MONO_1.001">VCR_OSD_MONO_1.001</option>
+                    <option value="CustomFont">Select Your Own Font!</option>
+                    <!--Change these idiot before uploading to GitHub-->
+                </select>
+            </div>
+            <div id="fontFileWrapper" class="opt-content" style="display: none">
+                <label for="fontFile">Upload Your Own Font File: </label>
+                <input type="file" id="fontFile" />
+            </div>
+            <div class="opt-content">
+                <label for="color">Color: </label>
+                <select name="colorMode" id="colorMode" onchange="selectColorChange()">
+                    <option value="primary" selected>Single-Color</option>
+                    <option value="gradient">Gradient</option>
+                </select>
+                <input type="color" id="color" />
+            </div>
+            <div class="opt-content gradientColorWrapper" style="display: none">
+                <label for="gradientStartColor">Gradient Starting Color:</label>
+                <input type="color" id="gradientStartColor" />
+            </div>
+            <div class="opt-content gradientColorWrapper" style="display: none">
+                <label for="gradientStartColor">Gradient Ending Color:</label>
+                <input type="color" id="gradientEndColor" />
+            </div>
+            <div class="opt-content gradientColorWrapper" style="display: none">
+                <label for="gradientAngle">Gradient Angle:</label>
+                <input type="number" id="gradientAngle" min="0" max="360" value="180" />
+            </div>
+            <div class="opt-content">
+                <label for="size">Font Size:</label>
+                <input type="number" id="size" min="1" max="100" value="60" />
+            </div>
+            <div class="opt-content">
+                <label for="weight">Font Weight: <span id="weightVal">400</span></label>
+                <input type="range" id="weight" min="100" max="900" step="100" value="400" list="datalist"
+                    onchange="weightChange()" />
+            </div>
+            <div class="opt-content">
+                <label for="imgWidth">Image Width:</label>
+                <input type="number" id="imgWidth" min="1" max="2048" value="800" />
+            </div>
+            <div class="opt-content">
+                <label for="imgHeight">Image Height:</label>
+                <input type="number" id="imgHeight" min="1" max="2048" value="400" />
+            </div>
+        </div>
+        <div class="btns">
+            <button onclick="generateImage()">Generate Image!</button>
+            <a id="downloadLink" download="text_image.png" style="display: none">
+                <button>Download Image</button>
+            </a>
+        </div>
+    </div>
+    <br><br>
+    <div class="window">
+        <div class="title-bar">
+            <div class="title-bar-text">Preview of Image | IF THE FONT DOESN'T LOAD, CLICK GENERATE IMAGE.</div>
+        </div>
+        <div class="preview">
+            <canvas id="canvas"></canvas>
+        </div>
+    </div>
+
+    <footer>Copyright &copy; 2023 SteadyStatus21</footer>
+    <!-- This is where the user can upload their own custom font files and then use them for the image generation. -->
+    <script>
+        function loadFont(file) {
+            let fontFile = URL.createObjectURL(file);
+            let fontFace = new FontFace("CustomFont", "url(" + fontFile + ")");
+
+            fontFace
+                .load()
+                .then(function (loadedFont) {
+                    document.fonts.add(loadedFont);
+                })
+                .catch(function (err) {
+                    alert("Uh oh buster! Your font didn't load correctly. This tool only supports TTF files.", err);
+                });
+        }
+        // Real-time changing of the weights of the fonts in the preview. 
+        function weightChange() {
+            document.getElementById("weightVal").innerText =
+                document.getElementById("weight").value;
+        }
+        // Generates the image and prepares it for downloading. 
+        function generateImage() {
+                let canvas = document.getElementById("canvas");
+                let ctx = canvas.getContext("2d");
+                let text = document.getElementById("text").value;
+                let font = document.getElementById("font").value;
+                let color = document.getElementById("color").value;
+                let gradientStartColor = document.getElementById("gradientStartColor").value;
+                let gradientEndColor = document.getElementById("gradientEndColor").value;
+                let gradientAngle = document.getElementById("gradientAngle").value;
+                let size = document.getElementById("size").value;
+                let weight = document.getElementById("weight").value;
+                let imgWidth = document.getElementById("imgWidth").value;
+                let imgHeight = document.getElementById("imgHeight").value;
+
+                if (!text.trim()) {
+                    alert("Uh oh buster. You didn't enter any text! Try again, but this time enter some text :)");
+                    return;
+                }
+
+                // Clear the canvas and set its dimensions
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                canvas.width = parseInt(imgWidth);
+                canvas.height = parseInt(imgHeight);
+
+                // Set the font properties
+                ctx.font = weight + " " + size + "px " + (fontFileInput.value ? "CustomFont" : font);
+
+                if (document.getElementById("colorMode").value === "gradient") {
+                    let angleInRadians = gradientAngle * (Math.PI / 180);
+                    let startPointX = canvas.width / 2 + (Math.cos(angleInRadians) * canvas.width) / 2;
+                    let startPointY = canvas.height / 2 + (Math.sin(angleInRadians) * canvas.height) / 2;
+                    let endPointX = canvas.width / 2 - (Math.cos(angleInRadians) * canvas.width) / 2;
+                    let endPointY = canvas.height / 2 - (Math.sin(angleInRadians) * canvas.height) / 2;
+                    let gradient = ctx.createLinearGradient(startPointX, startPointY, endPointX, endPointY);
+
+                    gradient.addColorStop(0, gradientStartColor);
+                    gradient.addColorStop(1, gradientEndColor);
+                    ctx.fillStyle = gradient;
+                } else {
+                    ctx.fillStyle = color;
+                }
+
+                // Measure the text width and check if it exceeds the canvas width
+                let textWidth = ctx.measureText(text).width;
+                if (textWidth > canvas.width) {
+                    // Calculate the new font size to fit the text within the canvas
+                    let newSize = Math.floor((canvas.width / textWidth) * size);
+                    ctx.font = weight + " " + newSize + "px " + (fontFileInput.value ? "CustomFont" : font);
+                    textWidth = ctx.measureText(text).width;
+                }
+
+                // Draw the text on the canvas
+                let x = (canvas.width - textWidth) / 2;
+                let y = canvas.height / 2 + parseInt(size) / 2;
+                ctx.fillText(text, x, y);
+
+                canvas.style.backgroundColor = "rgba(0,0,0,0)";
+
+                let downloadLink = document.getElementById("downloadLink");
+                let linkHref = canvas.toDataURL("image/png");
+                downloadLink.href = linkHref;
+                downloadLink.style.display = "inline-block";
+            }
+
+
+        let fontFileInput = document.getElementById("fontFile");
+        fontFileInput.addEventListener("change", function (e) {
+            let file = e.target.files[0];
+            if (file) {
+                loadFont(file);
+            }
+        });
+        function selectFontChange() {
+            if (document.getElementById("font").value === "CustomFont") {
+                document.getElementById("fontFileWrapper").style.display = "block";
+            } else {
+                document.getElementById("fontFileWrapper").style.display = "none";
+                tempval = document.getElementById("font").value;
+                document.getElementById("font").value = "Arial";
+                generateImage();
+                document.getElementById("font").value = tempval;
+            }
+            generateImage();
+        }
+        function selectColorChange() {
+            if (document.getElementById("colorMode").value === "gradient") {
+                document.getElementById("color").style.display = "none";
+                document.querySelectorAll(".gradientColorWrapper").forEach(el => {
+                    el.style.display = "block";
+                })
+            } else {
+                document.getElementById("color").style.display = "inline-block";
+                document.querySelectorAll(".gradientColorWrapper").forEach(el => {
+                    el.style.display = "none";
+                })
+            }
+        }
+    </script>
+</body>
+
+</html>
